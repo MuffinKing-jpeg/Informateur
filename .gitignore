@@ -1,0 +1,13 @@
+# Modules
+node_modules
+**/node_modules/**/*
+
+# Enivoirment 
+.env
+
+# DB
+database/
+
+# Compiled
+lib/
+lib/**/*
