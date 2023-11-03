@@ -48,7 +48,7 @@ pm2 start app.config.js
 After starting the bot send him `/start` and press `Became admin!` button.
 >Yep, next step is a little bit manual
 
-Copy your account entry from `candidates.json` to `admins.json`. And voila you can ask the bot about his network configuration.
+Copy your account entry from `candidates.json` to `admins.json`, Restart the bot. And voila you can ask the bot about his network configuration.
 
 ### How to quack?
 
