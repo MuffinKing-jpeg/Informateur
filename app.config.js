@@ -14,7 +14,14 @@ module.exports = {
       watch: isDev,
       // Delay between restart
       watch_delay: 50,
-      ignore_watch: ['node_modules', '\\.git', '*.log', '.vscode', 'database'],
+      ignore_watch: [
+        'node_modules',
+        '\\.git',
+        '*.log',
+        '.vscode',
+        'database',
+        'assets',
+      ],
     },
   ],
 }
