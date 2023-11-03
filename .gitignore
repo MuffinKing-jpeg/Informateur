@@ -11,3 +11,6 @@ database/
 # Compiled
 lib/
 lib/**/*
+
+#vscode
+.vscode
