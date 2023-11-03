@@ -1,8 +1,12 @@
 import { config } from 'dotenv'
 import { NetworkScan } from './network.js'
 import { DB } from './db/db.js'
-import { Bot } from './telegram.js'
-import { MsgProcessor } from './msgProcessor.js'
+import { listenText } from './msgProcessor.js'
+import TelegramBot from 'node-telegram-bot-api'
+import { sendDuck } from './telegram/duckSender.js'
+import { commands } from './telegram/commands.js'
+import { MainInterface } from './interfaces/main.interface.js'
+import { listenEvent } from './callbackProcessor.js'
 
 // Initialization
 console.time('Total init time')
@@ -28,15 +32,24 @@ const db = new DB()
 db.initDB()
   .then(() => {
     console.timeEnd('DB init time')
+    const bot = new TelegramBot(process.env['TG_KEY'] ?? '', { polling: true })
+    const main: MainInterface = {
+      bot: bot,
+      db: db,
+      net: network,
+    }
     console.log(db.data)
-    const bot = new Bot(process.env['TG_KEY'] ?? '')
-    const msgProcessor = new MsgProcessor(db, bot, network)
+
+    bot.setMyCommands([commands.start, commands.quack])
+
+    listenText(main)
+    listenEvent(main)
   })
   .then(() => {
     console.timeEnd('Total init time')
   })
   .catch((err) => {
-    console.error('OOOOPSIE, SOMETHING GOES WRONG!!!', err)
+    console.error('OOOOPSIE, SOMETHING WENT WRONG!!!', err)
   })
 
 /*

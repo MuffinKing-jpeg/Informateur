@@ -7,4 +7,8 @@ export const callbacks = {
     text: 'Update network',
     callback_data: 'update_network',
   },
+  quack: {
+    text: 'Quack!',
+    callback_data: 'quack',
+  },
 }

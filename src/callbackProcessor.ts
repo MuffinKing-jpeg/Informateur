@@ -1,23 +1,27 @@
-import { Subscription } from 'rxjs'
-import { DB } from './db/db'
-import { NetworkScan } from './network'
-import { Bot } from './telegram'
+import { MainInterface } from './interfaces/main.interface'
+import { callbacks } from './telegram/callbacks'
+import { sendDuck } from './telegram/duckSender'
+import { applyToAdminPage } from './telegram/pages/applyToAdmin.page'
+import { mainPage } from './telegram/pages/main.page'
 
-export class CallbackProcessor {
-  private subscription?: Subscription
-  private subscribeToCallback() {
-    this.subscription = this.bot.callbackFlow.subscribe((e) => {
-      console.log(e)
-    })
-  }
-
-  private data: DB
-  private bot: Bot
-  private network: NetworkScan
-  constructor(db: DB, tg: Bot, net: NetworkScan) {
-    this.data = db
-    this.bot = tg
-    this.network = net
-    this.subscribeToCallback()
-  }
+export function listenEvent(main: MainInterface) {
+  main.bot.on('callback_query', (callback) => {
+    if (callback.message)
+      switch (callback.data) {
+        case callbacks.applyToAdmin.callback_data:
+          applyToAdminPage(main, callback)
+          break
+        case callbacks.quack.callback_data:
+          sendDuck(main.bot, callback.message?.chat.id).then(() => {
+            if (callback.message) mainPage(callback.message, main)
+          })
+          break
+        case callbacks.updateNetwork.callback_data:
+          main.net.updateNetwork()
+          mainPage(callback.message, main)
+          break
+        default:
+          break
+      }
+  })
 }

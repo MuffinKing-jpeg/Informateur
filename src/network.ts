@@ -1,5 +1,5 @@
-import { hostname, networkInterfaces } from 'os';
-import { NetworkInterface } from './interfaces/NetworkInterface.interface';
+import { hostname, networkInterfaces } from 'os'
+import { NetworkInterface } from './interfaces/NetworkInterface.interface'
 
 export class NetworkScan {
   /**
@@ -7,17 +7,26 @@ export class NetworkScan {
    *
    * Stores list of network interfaces.
    */
-  public interfaces: NetworkInterface[] = [];
+  public interfaces: NetworkInterface[] = []
 
   /**
    * hostname
    *
    * Stores hostname of device.
    */
-  public hostname = hostname();
+  public hostname = hostname()
 
+  /**
+   * updateNetwork
+   *
+   * Updates network data
+   */
+  public updateNetwork() {
+    this.interfaces = []
+    this.getLocalIPv4()
+  }
   private getLocalIPv4() {
-    const nets = networkInterfaces();
+    const nets = networkInterfaces()
 
     for (const interfaceName of Object.keys(nets)) {
       for (const net of nets[interfaceName] ?? []) {
@@ -26,12 +35,12 @@ export class NetworkScan {
             name: interfaceName,
             address: net.address,
             mac: net.mac,
-          });
+          })
         }
       }
     }
   }
   constructor() {
-    this.getLocalIPv4();
+    this.getLocalIPv4()
   }
 }
