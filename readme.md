@@ -56,6 +56,11 @@ Send the bot `/quack` command or press `Quack!` button!
 >Be aware of awkward duck!
 >![Duck!](</assets/the-duck.png> "duck!")
 
+## TODO
+
+- Make shutdown sequence
+- Redo logic of messages
+
 ## Plans for the future
 
 - Create a service for managing multiple instances via telegram or discord bot.
